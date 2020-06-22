@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2015 haha01haha01
+﻿/* Copyright (C) 2015-2020 Yuval Deutscher
 
 * This Source Code Form is subject to the terms of the Mozilla Public
 * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,6 @@ namespace IRWConverter
     {
         static string inFile = "";
         static string outDir = "";
-        static FileStream file;
         static ZipArchive zip;
 
 
@@ -64,7 +63,7 @@ namespace IRWConverter
             {
                 Directory.CreateDirectory(outDir);
             }
-            using (zip = ZipFile.Open(inFile, ZipArchiveMode.Read))
+            using (zip = new ZipArchive(File.OpenRead(inFile), ZipArchiveMode.Read))
             {
                 IEnumerable<string> data;
                 List<string[]> splitData;
