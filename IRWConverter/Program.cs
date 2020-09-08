@@ -71,17 +71,23 @@ namespace IRWConverter
                 Console.WriteLine("Reading agency.txt");
                 data = ReadLines(ReadFile("agency.txt"));
                 string irw_agency_id = data.Where(x => x.Contains("rail")).ElementAt(0).Split(",".ToCharArray())[0];
+                WriteFile("agency.txt", data);
 
                 Console.WriteLine("Reading routes.txt");
-                splitData = ReadSplitFile("routes.txt");
+                data = ReadLines(ReadFile("routes.txt"));
                 HashSet<string> irw_routes = new HashSet<string>();
-                foreach (string[] route in splitData)
+                List<string> routesOutLines = new List<string>();
+                routesOutLines.Add(data.ElementAt(0));
+                foreach (string line in data.Skip(1))
                 {
+                    string[] route = line.Split(",".ToCharArray());
                     if (route[1] == irw_agency_id)
                     {
                         irw_routes.Add(route[0]);
+                        routesOutLines.Add(line);
                     }
                 }
+                WriteFile("routes.txt", routesOutLines);
 
                 Console.WriteLine("Reading trips.txt");
                 data = ReadLines(ReadFile("trips.txt"));
